@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngoc Quyen's Classroom</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #e0e5ec;
+            --text-color: #313131;
+            --point-color: #614CFF; /* Màu xanh tím của Pen */
+            --shadow-light: #ffffff;
+            --shadow-dark: #a3b1c6;
+            --success-color: #2ed573;
+            --error-color: #ff4757;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Chiron GoRound TC', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Thiết kế 3D Neumorphism dập nổi mềm mại */
+        .neumorphic-card {
+            background: var(--bg-color);
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 9px 9px 16px var(--shadow-dark), -9px -9px 16px var(--shadow-light);
+        }
+
+        /* Thiết kế 3D Neumorphism dập chìm */
+        .inset-card {
+            background: var(--bg-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 15px;
+            box-shadow: inset 6px 6px 10px var(--shadow-dark), inset -6px -6px 10px var(--shadow-light);
+        }
+
+        header h1 {
+            color: var(--point-color);
+            font-size: 26px;
+            margin-bottom: 8px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        header h2 {
+            font-size: 18px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            color: var(--point-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-left: 4px solid var(--point-color);
+            padding-left: 10px;
+            font-weight: 700;
+        }
+
+        .grammar-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .grammar-box {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .guide-text {
+            font-style: italic;
+            opacity: 0.7;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .quiz-group {
+            margin-bottom: 25px;
+        }
+
+        .quiz-group h4 {
+            margin-bottom: 12px;
+            color: #4a4a4a;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .quiz-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed rgba(0,0,0,0.05);
+        }
+
+        .quiz-item label {
+            width: 100%;
+            font-weight: 700;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 4px;
+        }
+
+        .fixed-text {
+            font-size: 16px;
+        }
+
+        /* Ô Input dập chìm nhẹ, bo góc mềm mại */
+        .quiz-item input {
+            border: none;
+            outline: none;
+            background: var(--bg-color);
+            padding: 8px 15px;
+            border-radius: 10px;
+            box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+            color: var(--text-color);
+            font-size: 16px;
+            width: 160px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        /* Hiệu ứng focus có màu point của Pen */
+        .quiz-item input:focus {
+            box-shadow: inset 1px 1px 3px var(--shadow-dark), inset -1px -1px 3px var(--shadow-light);
+            border: 1.5px solid var(--point-color);
+        }
+
+        /* Nút bấm dập nổi */
+        .action-btn-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .btn-neumorphic {
+            border: none;
+            outline: none;
+            padding: 14px 30px;
+            border-radius: 12px;
+            background: var(--bg-color);
+            color: var(--point-color);
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+            transition: all 0.2s ease;
+        }
+
+        /* Khi nhấn nút sẽ dập chìm xuống tạo tính feedback cao */
+        .btn-neumorphic:active {
+            box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+        }
+
+        .btn-neumorphic.secondary {
+            color: #7f8c8d;
+        }
+
+        /* Phản hồi đúng/sai rõ ràng */
+        .correct {
+            background: #d4edda !important;
+            color: #155724 !important;
+            box-shadow: none !important;
+            border: 1.5px solid var(--success-color);
+        }
+
+        .incorrect {
+            background: #f8d7da !important;
+            color: #721c24 !important;
+            box-shadow: none !important;
+            border: 1.5px solid var(--error-color);
+        }
+
+        .feedback-icon {
+            font-weight: bold;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="neumorphic-card">
+            <h1>Ngoc Quyen's Classroom</h1>
+            <h2>Ngữ pháp: -(으)ㄹ까요?</h2>
+        </header>
+
+        <section class="neumorphic-card">
+            <h3 class="section-title">CẤU TRÚC & Ý NGHĨA</h3>
+            <p style="font-size: 15px; line-height: 1.6;">Thường dùng trong văn nói, dùng cho đối tượng ngang bằng hoặc thấp hơn mình.</p>
+            <div class="grammar-box">
+                <div class="grammar-item inset-card">
+                    <strong>Không có batchim / Kết thúc bằng ㄹ:</strong>
+                    <p style="color: var(--point-color); margin-top: 5px; font-weight: bold;">V + ㄹ까요? (Ví dụ: 볼까요?)</p>
+                </div>
+                <div class="grammar-item inset-card">
+                    <strong>Có batchim:</strong>
+                    <p style="color: var(--point-color); margin-top: 5px; font-weight: bold;">V + 을까요? (Ví dụ: 먹을까요?)</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="neumorphic-card">
+            <h3 class="section-title">VÍ DỤ</h3>
+            <p class="guide-text">Học sinh điền cụm từ tiếng Hàn chính xác vào ô trống và ấn nút kiểm tra nhé!</p>
+
+            <div class="quiz-container">
+                <div class="quiz-group inset-card">
+                    <h4>1. Ý nghĩa 1: Rủ rê đối phương cùng làm gì đó</h4>
+                    <div class="quiz-item">
+                        <label>Câu 1. Cùng ăn trưa nhé?:</label>
+                        <span class="fixed-text">같이 점심을</span>
+                        <input type="text" id="q1" data-answer="먹ul까요" placeholder="Điền từ...">
+                        <span class="fixed-text">?</span>
+                        <span class="feedback-icon" id="f1"></span>
+                    </div>
+                    <div class="quiz-item">
+                        <label>Câu 2. Cùng học nhé?:</label>
+                        <span class="fixed-text">같이</span>
+                        <input type="text" id="q2" data-answer="공부할까요" placeholder="Điền từ...">
+                        <span class="fixed-text">?</span>
+                        <span class="feedback-icon" id="f2"></span>
+                    </div>
+                </div>
+
+                <div class="quiz-group inset-card">
+                    <h4>2. Ý nghĩa 2: Phỏng đoán về đối phương (Ngôi thứ 3)</h4>
+                    <div class="quiz-item">
+                        <label>Câu 3. Liệu ngày mai có ấm không nhỉ?:</label>
+                        <span class="fixed-text">내일 날씨가</span>
+                        <input type="text" id="q3" data-answer="따뜻할까요" placeholder="Điền từ...">
+                        <span class="fixed-text">?</span>
+                        <span class="feedback-icon" id="f3"></span>
+                    </div>
+                    <div class="quiz-item">
+                        <label>Câu 4. Liệu ở thư viện có nhiều bạn không nhỉ?:</label>
+                        <span class="fixed-text">도서관에 친구가</span>
+                        <input type="text" id="q4" data-answer="많을까요" placeholder="Điền từ...">
+                        <span class="fixed-text">?</span>
+                        <span class="feedback-icon" id="f4"></span>
+                    </div>
+                </div>
+
+                <div class="quiz-group inset-card">
+                    <h4>3. Ý nghĩa 3: Câu hỏi tu từ (Ngôi thứ nhất)</h4>
+                    <div class="quiz-item">
+                        <label>Câu 5. Ngày mai mình nên học gì nhỉ?:</label>
+                        <span class="fixed-text">내일은 무엇을</span>
+                        <input type="text" id="q5" data-answer="배울까요" placeholder="Điền từ...">
+                        <span class="fixed-text">?</span>
+                        <span class="feedback-icon" id="f5"></span>
+                    </div>
+                    <div class="quiz-item">
+                        <label>Câu 6. Hộp viết của mình đâu rồi nhỉ:</label>
+                        <span class="fixed-text">제 필통이 어디에</span>
+                        <input type="text" id="q6" data-answer="있을까요" placeholder="Điền từ...">
+                        <span class="fixed-text">?</span>
+                        <span class="feedback-icon" id="f6"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-btn-container">
+                <button id="check-btn" class="btn-neumorphic">Kiểm Tra Đáp Án</button>
+                <button id="reset-btn" class="btn-neumorphic secondary">Làm Lại</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('check-btn').addEventListener('click', function() {
+            const inputs = document.querySelectorAll('.quiz-item input');
+
+            inputs.forEach((input, index) => {
+                // Chuẩn hóa chuỗi nhập vào (bỏ khoảng trắng thừa)
+                const userAnswer = input.value.trim();
+                const correctAnswer = input.getAttribute('data-answer');
+                const feedbackId = 'f' + (index + 1);
+                const feedbackEl = document.getElementById(feedbackId);
+
+                input.classList.remove('correct', 'incorrect');
+
+                if (userAnswer === correctAnswer) {
+                    input.classList.add('correct');
+                    feedbackEl.textContent = ' 🎉 Đúng rồi!';
+                    feedbackEl.style.color = 'var(--success-color)';
+                } else {
+                    input.classList.add('incorrect');
+                    feedbackEl.textContent = ` 💡 Đáp án đúng: ${correctAnswer}`;
+                    feedbackEl.style.color = 'var(--error-color)';
+                }
+            });
+        });
+
+        document.getElementById('reset-btn').addEventListener('click', function() {
+            const inputs = document.querySelectorAll('.quiz-item input');
+            const feedbacks = document.querySelectorAll('.feedback-icon');
+
+            inputs.forEach(input => {
+                input.value = '';
+                input.classList.remove('correct', 'incorrect');
+            });
+
+            feedbacks.forEach(feedback => {
+                feedback.textContent = '';
+            });
+        });
+    </script>
+</body>
+</html>
